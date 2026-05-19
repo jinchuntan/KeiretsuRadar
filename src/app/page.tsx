@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Radar, ArrowRight, Shield, Network, Eye, Zap, Globe, BarChart3 } from 'lucide-react';
+import { Radar, ArrowRight, Shield, Network, Eye, Zap, Globe, BarChart3, Search, Activity, FileText } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
@@ -134,8 +134,43 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* CTA */}
+        {/* How It Works */}
         <section className="border-t border-border/30 bg-card/30">
+          <div className="mx-auto max-w-4xl px-4 py-16">
+            <h2 className="text-2xl font-bold mb-2 text-center">How It Works</h2>
+            <p className="text-sm text-muted-foreground text-center mb-10">From query to boardroom brief in four steps</p>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {[
+                { step: '01', icon: Search, title: 'Enter a Query', desc: 'Type a supply chain, industry, or company name' },
+                { step: '02', icon: Globe, title: 'Signal Collection', desc: 'Live web data is collected via Bright Data SERP API' },
+                { step: '03', icon: Activity, title: 'Risk Analysis', desc: 'AI scores each supplier across 8 risk categories' },
+                { step: '04', icon: FileText, title: 'Get Your Brief', desc: 'Review the network map, alerts, and executive report' },
+              ].map((item, i) => {
+                const Icon = item.icon;
+                return (
+                  <div key={i} className="relative text-center">
+                    {/* Connector line */}
+                    {i < 3 && (
+                      <div className="hidden lg:block absolute top-8 left-[calc(50%+32px)] w-[calc(100%-64px)] h-px bg-border/50" />
+                    )}
+                    <div className="relative mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-2xl border border-border/50 bg-card">
+                      <Icon className="h-6 w-6 text-primary" />
+                      <span className="absolute -top-2 -right-2 flex h-6 w-6 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">
+                        {item.step}
+                      </span>
+                    </div>
+                    <h3 className="font-semibold text-sm mb-1">{item.title}</h3>
+                    <p className="text-xs text-muted-foreground">{item.desc}</p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+
+        {/* CTA */}
+        <section className="border-t border-border/30">
           <div className="mx-auto max-w-4xl px-4 py-16 text-center">
             <h2 className="text-2xl font-bold mb-3">Ready to scan your supply chain?</h2>
             <p className="text-muted-foreground mb-6">Run your first intelligence scan in under 60 seconds.</p>

@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Radar, LayoutDashboard, FileText, Settings } from 'lucide-react';
+import { Radar, LayoutDashboard, FileText, Settings, HelpCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const navItems = [
@@ -11,7 +11,7 @@ const navItems = [
   { href: '/settings', label: 'Settings', icon: Settings },
 ];
 
-export function Nav() {
+export function Nav({ onHelpClick }: { onHelpClick?: () => void } = {}) {
   const pathname = usePathname();
 
   return (
@@ -44,6 +44,15 @@ export function Nav() {
               </Link>
             );
           })}
+          {onHelpClick && (
+            <button
+              onClick={onHelpClick}
+              className="flex items-center justify-center rounded-lg p-2 text-muted-foreground hover:text-primary hover:bg-primary/10 transition-colors ml-1 cursor-pointer"
+              title="Show guided tour"
+            >
+              <HelpCircle className="h-4 w-4" />
+            </button>
+          )}
         </nav>
       </div>
     </header>

@@ -18,6 +18,7 @@ import {
   Activity, Network,
 } from 'lucide-react';
 import Link from 'next/link';
+import { OnboardingTour } from '@/components/onboarding-tour';
 
 function DashboardContent() {
   const searchParams = useSearchParams();
@@ -27,6 +28,7 @@ function DashboardContent() {
   const [scanResult, setScanResult] = useState<ScanResult | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [progress, setProgress] = useState<ScanProgress>({ stage: '', progress: 0, message: '' });
+  const [showTour, setShowTour] = useState(false);
 
   const runScan = useCallback(async (query: string) => {
     setIsLoading(true);
@@ -73,12 +75,13 @@ function DashboardContent() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Nav />
+      <Nav onHelpClick={() => setShowTour(true)} />
+      {scanResult && !isLoading && <OnboardingTour active={showTour} />}
 
       <main className="flex-1">
         <div className="mx-auto max-w-7xl px-4 py-6 space-y-6">
           {/* Search + Mode */}
-          <div className="flex items-center gap-3">
+          <div id="tour-search" className="flex items-center gap-3">
             <div className="flex-1">
               <ScanInput onScan={runScan} isLoading={isLoading} defaultQuery={initialQuery} />
             </div>
@@ -132,7 +135,7 @@ function DashboardContent() {
           {scanResult && !isLoading && (
             <>
               {/* Stats Row */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+              <div id="tour-stats" className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 <Card className="bg-card/50 border-border/50">
                   <CardContent className="pt-4 pb-3 px-4">
                     <div className="flex items-center gap-3">
@@ -217,7 +220,7 @@ function DashboardContent() {
               )}
 
               {/* Network Graph */}
-              <div>
+              <div id="tour-network">
                 <h2 className="text-sm font-medium text-muted-foreground mb-3 flex items-center gap-2">
                   <Network className="h-4 w-4" /> Keiretsu Network Map
                 </h2>
@@ -234,7 +237,7 @@ function DashboardContent() {
               </div>
 
               {/* Supplier Table */}
-              <div>
+              <div id="tour-table">
                 <h2 className="text-sm font-medium text-muted-foreground mb-3 flex items-center gap-2">
                   <Shield className="h-4 w-4" /> Supplier Risk Heatmap
                 </h2>
@@ -243,14 +246,14 @@ function DashboardContent() {
 
               {/* Two Column: Timeline + Actions */}
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                <div>
+                <div id="tour-evidence">
                   <h2 className="text-sm font-medium text-muted-foreground mb-3 flex items-center gap-2">
                     <Activity className="h-4 w-4" /> Evidence Trail
                   </h2>
                   <SignalTimeline signals={negativeSignals.length > 0 ? negativeSignals : scanResult.signals} limit={8} />
                 </div>
 
-                <div>
+                <div id="tour-actions">
                   <h2 className="text-sm font-medium text-muted-foreground mb-3 flex items-center gap-2">
                     <TrendingUp className="h-4 w-4" /> Recommended Actions
                   </h2>
